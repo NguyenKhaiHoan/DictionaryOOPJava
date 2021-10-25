@@ -1,0 +1,42 @@
+.menu-bar {
+    -fx-font-size: 12px;
+    -fx-background-color: white;
+}
+.menu-item {
+    -fx-background-color: white;
+}
+#btnTranslate {
+    -fx-text-fill: royalblue;
+    -fx-background-color: white;
+    -fx-border-color: royalblue;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+#btnTranslate:hover, #btnTranslate:focused{
+    -fx-border-color: royalblue;
+    -fx-background-color: royalblue;
+    -fx-text-fill: white;
+}
+#btnExportFile {
+    -fx-text-fill: royalblue;
+    -fx-background-color: white;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+#btnExportFile:hover, #btnExportFile:focused{
+    -fx-background-color: royalblue;
+    -fx-text-fill: white;
+}
+#btnExportDatabase {
+    -fx-text-fill: royalblue;
+    -fx-background-color: white;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+#btnExportDatabase:hover, #btnExportDatabase:focused{
+    -fx-background-color: royalblue;
+    -fx-text-fill: white;
+}

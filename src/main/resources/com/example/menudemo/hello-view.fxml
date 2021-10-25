@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.ImageInput?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="594.0" prefWidth="904.0" style="-fx-background-radius: 10;" stylesheets="@images/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.menudemo.DictionaryController">
+    <children>
+        <BorderPane prefHeight="594.0" prefWidth="919.0" style="-fx-background-color: #4169E1; -fx-background-radius: 10;">
+            <center>
+                <BorderPane prefHeight="584.0" prefWidth="518.0" style="-fx-background-color: #FBFCFC; -fx-background-radius: 1em;" BorderPane.alignment="CENTER">
+                    <top>
+                        <Pane prefHeight="296.0" prefWidth="551.0" style="-fx-background-position: 10;" BorderPane.alignment="CENTER">
+                            <children>
+                                <Label layoutX="45.0" layoutY="61.0" text="Home" textFill="ROYALBLUE">
+                                    <font>
+                                        <Font size="25.0" />
+                                    </font>
+                                </Label>
+                                <Label layoutX="45.0" layoutY="97.0" text="Show explain word and choose function" textFill="#989aad" />
+                                <VBox layoutX="-1.0" layoutY="130.0" prefHeight="165.0" prefWidth="553.0">
+                                    <children>
+                                        <AnchorPane prefHeight="28.0" prefWidth="554.0">
+                                            <children>
+                                                <MenuBar fx:id="menuBar" layoutX="32.0" layoutY="1.0">
+                                                    <menus>
+                                                        <Menu mnemonicParsing="false" text="Add word          ">
+                                                            <items>
+                                                                <MenuItem mnemonicParsing="false" text="Enter your word target">
+                                                                    <graphic>
+                                                                        <TextField fx:id="txtAddWordTarget" style="-fx-background-color: transparent; -fx-border-color: royalblue; -fx-border-width: 0 0 2 0;" />
+                                                                    </graphic>
+                                                                </MenuItem>
+                                                                <MenuItem mnemonicParsing="false" text="Enter your word explain (Press F1)">
+                                                                    <graphic>
+                                                                        <TextArea fx:id="txtAddWordExplain" onKeyReleased="#addWordFunction" prefHeight="94.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: royalblue; -fx-border-width: 0 0 2 0;" />
+                                                                    </graphic>
+                                                                </MenuItem>
+                                                            </items>
+                                                        </Menu>
+                                                        <Menu mnemonicParsing="false" text="Edit word          ">
+                                                            <items>
+                                                                <MenuItem mnemonicParsing="false" text="Enter your word target">
+                                                                    <graphic>
+                                                                        <TextField fx:id="txtEditWordTarget" style="-fx-background-color: transparent; -fx-border-color: royalblue; -fx-border-width: 0 0 2 0;" />
+                                                                    </graphic>
+                                                                </MenuItem>
+                                                                <MenuItem mnemonicParsing="false" text="Enter your word explain (Press F1) ">
+                                                                    <graphic>
+                                                                        <TextArea fx:id="txtEditWordExplain" onKeyReleased="#editWordFunction" prefHeight="94.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: royalblue;" />
+                                                                    </graphic>
+                                                                </MenuItem>
+                                                            </items>
+                                                        </Menu>
+                                                        <Menu mnemonicParsing="false" text="Delete word        ">
+                                                            <items>
+                                                                <MenuItem mnemonicParsing="false" text="Enter your word target (Press F1) ">
+                                                                    <graphic>
+                                                                        <TextField fx:id="txtDeleteWordTarget" onKeyReleased="#deleteWordFunction" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: royalblue;" />
+                                                                    </graphic>
+                                                                </MenuItem>
+                                                            </items>
+                                                        </Menu>
+                                                    </menus>
+                                                </MenuBar>
+                                                <MenuButton layoutX="362.0" layoutY="1.0" mnemonicParsing="false" styleClass="menu-bar" text="Get data">
+                                                    <items>
+                                                        <MenuItem mnemonicParsing="false" text="Export from file" />
+                                                        <MenuItem mnemonicParsing="false" text="Export from database " />
+                                                    </items>
+                                                </MenuButton>
+                                            </children>
+                                        </AnchorPane>
+                                        <HBox layoutX="10.0" layoutY="132.0" prefHeight="43.0" prefWidth="554.0">
+                                            <children>
+                                                <Label text="Google translate" textFill="ROYALBLUE">
+                                                    <HBox.margin>
+                                                        <Insets left="45.0" top="20.0" />
+                                                    </HBox.margin>
+                                                    <font>
+                                                        <Font size="14.0" />
+                                                    </font>
+                                                </Label>
+                                                <Button fx:id="btnTranslate" mnemonicParsing="false" onMouseClicked="#googleTranslateFunction" prefHeight="27.0" prefWidth="73.0" text="Translate" textFill="WHITE">
+                                                    <HBox.margin>
+                                                        <Insets left="295.0" top="16.0" />
+                                                    </HBox.margin>
+                                                </Button>
+                                            </children>
+                                        </HBox>
+                                        <TextArea fx:id="txtTranslate" prefHeight="82.0" prefWidth="464.0" style="-fx-border-color: royalblue; -fx-border-width: 0 0 2 0; -fx-background-color: transparent;">
+                                            <VBox.margin>
+                                                <Insets left="45.0" right="45.0" top="10.0" />
+                                            </VBox.margin>
+                                        </TextArea>
+                                    </children>
+                                </VBox>
+                                <Button fx:id="btnAbout" layoutX="508.0" layoutY="17.0" mnemonicParsing="false" onMouseClicked="#aboutProgram" prefHeight="25.0" prefWidth="30.0" style="-fx-background-color: #4169e1; -fx-background-radius: 15;" text="i" textFill="WHITE" />
+                            </children>
+                        </Pane>
+                    </top>
+                    <bottom>
+                        <BorderPane prefHeight="30.0" prefWidth="551.0" style="-fx-background-radius: 1em; -fx-border-radius: 1em;" BorderPane.alignment="CENTER" />
+                    </bottom>
+                    <center>
+                        <BorderPane prefHeight="258.0" prefWidth="551.0" BorderPane.alignment="CENTER">
+                            <top>
+                                <Label text="ExplainArea" textFill="ROYALBLUE" BorderPane.alignment="CENTER_LEFT">
+                                    <padding>
+                                        <Insets bottom="10.0" left="45.0" top="10.0" />
+                                    </padding>
+                                    <BorderPane.margin>
+                                        <Insets bottom="5.0" top="15.0" />
+                                    </BorderPane.margin>
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Label>
+                            </top>
+                            <center>
+                                <TextArea fx:id="txtArea" prefHeight="193.0" prefWidth="462.0" style="-fx-border-color: royalblue; -fx-border-width: 0 0 2 0; -fx-background-color: transparent;" BorderPane.alignment="CENTER">
+                                    <BorderPane.margin>
+                                        <Insets left="45.0" right="45.0" />
+                                    </BorderPane.margin>
+                                </TextArea>
+                            </center>
+                        </BorderPane>
+                    </center>
+                </BorderPane>
+            </center>
+            <left>
+                <Pane prefHeight="585.0" prefWidth="358.0" style="-fx-background-color: royalblue; -fx-background-radius: 10;" BorderPane.alignment="CENTER">
+                    <children>
+                        <TextField fx:id="txtSearch" layoutX="32.0" layoutY="129.0" onKeyPressed="#lookupWord" onKeyReleased="#searchListWordRelated" prefHeight="34.0" prefWidth="258.0" promptText="Enter your word ..." style="-fx-background-color: white; -fx-background-radius: 1em;" styleClass="text-input">
+                            <padding>
+                                <Insets left="15.0" />
+                            </padding>
+                        </TextField>
+                        <Label layoutX="32.0" layoutY="194.0" text="List word export from" textFill="#fafafa" />
+                        <Label layoutX="32.0" layoutY="60.0" text="DictionaryOOPJava" textFill="#fbfcfc">
+                            <font>
+                                <Font size="25.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="31.0" layoutY="96.0" text="Welcome to our project Dictionary English - Vietnamese" textFill="#989aad" />
+                        <Button fx:id="btnClose" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#closeProgram" prefHeight="25.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 15;" text="X" textFill="ROYALBLUE" />
+                        <ListView fx:id="viewListWord" layoutX="32.0" layoutY="236.0" onMouseClicked="#clickShowWordExplain" prefHeight="318.0" prefWidth="293.0" style="-fx-control-inner-background: white; -fx-background-color: white;" />
+                        <Button fx:id="btnSpeak" layoutX="300.0" layoutY="134.0" mnemonicParsing="false" onMouseClicked="#speakEnglish" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: #757575;" text="Speak">
+                            <effect>
+                                <ImageInput>
+                                    <source>
+                                        <Image url="@images/speak.png" />
+                                    </source>
+                                </ImageInput>
+                            </effect></Button>
+                        <ToggleButton fx:id="btnExportFile" layoutX="161.0" layoutY="190.0" mnemonicParsing="false" onMouseClicked="#exportFile" text="File (Default)">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="export" />
+                            </toggleGroup>
+                        </ToggleButton>
+                        <ToggleButton fx:id="btnExportDatabase" layoutX="257.0" layoutY="190.0" mnemonicParsing="false" onMouseClicked="#exportDatabase" text="Database" toggleGroup="$export" />
+                    </children>
+                </Pane>
+            </left>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+        </BorderPane>
+    </children>
+</AnchorPane>
