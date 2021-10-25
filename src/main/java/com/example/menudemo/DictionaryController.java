@@ -1,5 +1,6 @@
 package com.example.menudemo;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -60,6 +61,32 @@ public class DictionaryController extends Dictionary implements Initializable {
     public ListView<String> viewListWord = new ListView<String>();
 
     @FXML
+    public void aboutProgram(MouseEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("DictionaryOPPJava");
+        alert.setHeaderText("Information");
+        alert.setContentText("Dictionary Java\nCreated by Hoan & Hop");
+        alert.show();
+    }
+
+    @FXML
+    private void closeProgram(MouseEvent event) throws Exception {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("DictionaryOPPJava");
+        alert.setHeaderText("Notification");
+        alert.setContentText("Do you want to exit program?");
+        ButtonType Yes = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+        ButtonType No = new ButtonType("No", ButtonBar.ButtonData.NO);
+        alert.getButtonTypes().setAll(Yes, No);
+        Optional<ButtonType> option = alert.showAndWait();
+        if (option.get() == Yes) {
+            SpeechUtils.speak("", true);
+            Platform.exit();
+            System.exit(0);
+        }
+    }
+
+    @FXML
     private void exportFile(MouseEvent event) {
         check = 0;
         try {
@@ -91,6 +118,17 @@ public class DictionaryController extends Dictionary implements Initializable {
     }
 
     /**
+     * Lookup word.
+     */
+    public void lookupWord(KeyEvent event) throws IOException {
+        txtArea.clear();
+        if(event.getCode() == KeyCode.ENTER) {
+            String wordTarget = txtSearch.getText();
+            txtArea.setText(DictionaryManagement.lookupFromGUI(wordTarget));
+        }
+    }
+
+    /**
      * Search list word related.
      */
     public void searchListWordRelated() {
@@ -99,6 +137,14 @@ public class DictionaryController extends Dictionary implements Initializable {
         ObservableList<String> list = FXCollections.observableArrayList(searchListWord);
         viewListWord.setItems(list);
         Dictionary.listWordRelated.clear();
+    }
+
+    /**
+     * Click word in listview to show word explain.
+     */
+    public void clickShowWordExplain (MouseEvent e) {
+        txtSearch.setText(viewListWord.getSelectionModel().getSelectedItem());
+        txtArea.setText(DictionaryManagement.lookupFromGUI(viewListWord.getSelectionModel().getSelectedItem()));
     }
 
     /**
@@ -131,6 +177,35 @@ public class DictionaryController extends Dictionary implements Initializable {
     }
 
     /**
+     * Function edit word.
+     */
+    public void editWordFunction(KeyEvent event) throws SQLException {
+        String wordTarget = txtEditWordTarget.getText();
+        String wordExplain = txtEditWordExplain.getText();
+        if (event.getCode() == KeyCode.F1) {
+            if (wordTarget.length() != 0 && wordExplain.length() != 0) {
+                if (DictionaryManagement.editFromGUI(wordTarget, wordExplain)) {
+                    System.out.println("Edit successful!");
+                    txtEditWordTarget.clear();
+                    txtEditWordExplain.clear();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("DictionaryOPPJava");
+                    alert.setHeaderText("Warning");
+                    alert.setContentText("This word does not exist!");
+                    alert.show();
+                    return;
+                }
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("DictionaryOPPJava");
+                alert.setHeaderText("Information");
+                alert.setContentText("You fixed " + wordTarget + " and its meaning is " + wordExplain + " successful!");
+                alert.show();
+            }
+        }
+    }
+
+    /**
      * Function delete word.
      */
     public void deleteWordFunction(KeyEvent event) throws SQLException {
@@ -157,6 +232,28 @@ public class DictionaryController extends Dictionary implements Initializable {
             alert.setTitle("DictionaryOOPJava");
             alert.setHeaderText("Information");
             alert.setContentText("You deleted " + wordTarget + " successful!");
+            alert.show();
+        }
+    }
+
+    /**
+     * Advance translate text.
+     */
+    @FXML
+    public void googleTranslateFunction(MouseEvent event) {
+        String textTranslated = txtTranslate.getText();
+        if (textTranslated.length() != 0) {
+            try {
+                textTranslated = GoogleTranslate.translate("VI", textTranslated);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            txtArea.setText(textTranslated);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("DictionaryOPPJava");
+            alert.setHeaderText("Warning");
+            alert.setContentText("You have not entered words or text!");
             alert.show();
         }
     }

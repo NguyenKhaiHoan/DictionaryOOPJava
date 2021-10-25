@@ -20,4 +20,14 @@ public class Dictionary {
             System.out.printf("%d    |%s\t\t\t\t\t|%s\n", i, wordTarget, wordExplain);
         }
     }
+
+    /**
+     * Show list word related.
+     */
+    public static void showListWordRelated(List<String> list) {
+        System.out.println("No" + "   |English\t");
+        for (int i = 0; i < list.size(); i++) {
+            System.out.printf("%d    |%s\t\t\t\t\n", i, listWordRelated.get(i));
+        }
+    }
 }

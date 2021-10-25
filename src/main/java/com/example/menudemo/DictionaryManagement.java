@@ -9,6 +9,30 @@ import java.sql.*;
 public class DictionaryManagement extends Dictionary {
 
     /**
+     * Lookup word from GUI.
+     */
+    public static String lookupFromGUI(String wordTarget) {
+        for (Word word : listWord) {
+            if (wordTarget.equalsIgnoreCase(word.getWord_target())) {
+                return word.getWord_explain();
+            }
+        }
+        return "This word does not exist!";
+    }
+
+    /**
+     * Lookup word check.
+     */
+    public static boolean lookupCheck(String wordTarget) {
+        for (Word word : listWord) {
+            if (wordTarget.equalsIgnoreCase(word.getWord_target())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Insert word from GUI.
      */
     public static boolean insertFromGUI(String wordTarget,String wordExplain) throws SQLException {
@@ -48,6 +72,25 @@ public class DictionaryManagement extends Dictionary {
     }
 
     /**
+     * Edit word from GUI.
+     */
+    public static boolean editFromGUI(String wordTarget, String wordExplain) throws SQLException {
+        for (int i = 0; i < listWord.size(); i++) {
+            if (wordTarget.equalsIgnoreCase(listWord.get(i).getWord_target())) {
+                listWord.set(i, new Word(wordTarget, wordExplain));
+                if (DictionaryController.check == 0) {
+                    dictionaryExportToFile();
+                }
+                else {
+                    dictionaryExportToDatabase();
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Search word from GUI.
      */
     public static List<String> searchFromGUI(String wordTarget) {
@@ -58,6 +101,22 @@ public class DictionaryManagement extends Dictionary {
         }
         Collections.sort(listWordRelated);
         return listWordRelated;
+    }
+
+    /**
+     * Lookup word from Commandline.
+     */
+    public static String dictionaryLookup() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter word target which you want to lookup: ");
+        String wordTarget = sc.nextLine();
+        for (Word word : listWord) {
+            if (wordTarget.equalsIgnoreCase(word.getWord_target())) {
+                System.out.println("Show word explain of thí word target: ");
+                return word.getWord_explain();
+            }
+        }
+        return "This word does not exist!";
     }
 
     /**
@@ -108,6 +167,76 @@ public class DictionaryManagement extends Dictionary {
         return "This word does not exist!";
     }
 
+    /**
+     * Edit word from Commandline.
+     */
+    public static String editFromCommandline() throws SQLException {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter word target which you want to edit: ");
+        String wordTarget = sc.nextLine();
+        for (int i = 0; i < listWord.size(); i++) {
+            if (wordTarget.equalsIgnoreCase(listWord.get(i).getWord_target())) {
+                System.out.println("Enter word explain which you want to edit:  ");
+                String wordExplain = sc.nextLine();
+                listWord.set(i, new Word(wordTarget, wordExplain));
+                if (DictionaryController.check == 0) {
+                    dictionaryExportToFile();
+                }
+                else {
+                    dictionaryExportToDatabase();
+                }
+                return "Edit successful!";
+            }
+        }
+        return "This word does not exist!";
+    }
+
+    private static String DB_URL = "jdbc:mysql://localhost:3306/dictionarydatabase";
+    private static String USER_NAME = "root";
+    private static String PASSWORD = "";
+
+    /**
+     * insert from database.
+     */
+    public static void insertFromDB() throws SQLException {
+        listWord.clear();
+        listWordTarget.clear();
+        Connection conn = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD);
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from `tbl_edict`");
+        while (rs.next()) {
+            String wordTarget = rs.getString(2);
+            String wordExplain = rs.getString(3);
+            listWord.add(new Word(wordTarget, wordExplain));
+        }
+        for (Word word : listWord) {
+            listWordTarget.add(word.getWord_target());
+        }
+        conn.close();
+    }
+
+    /**
+     * dictionary export to database.
+     */
+    public static void dictionaryExportToDatabase() throws SQLException {
+        Connection conn = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD);
+        Statement stmt = conn.createStatement();
+        int rs1 = stmt.executeUpdate("delete from `tbl_edict`");
+        for (int i = 0; i < listWord.size(); i++) {
+            String sql = "INSERT INTO `tbl_edict`(idx, word, detail) " + "VALUE(?, ?, ?)";
+            String wordTarget = listWord.get(i).getWord_target();
+            String wordExplain = listWord.get(i).getWord_explain();
+            try {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setInt(1, i);
+                ps.setString(2, wordTarget);
+                ps.setString(3, wordExplain);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        conn.close();
+    }
 
     /**
      * dictionary export to file.
