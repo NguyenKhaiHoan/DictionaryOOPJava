@@ -21,4 +21,11 @@ public class DictionaryCommandLine {
         Dictionary.showAllWord();
         DictionaryManagement.dictionaryLookup();
     }
+
+    /**
+     * dictionary searcher.
+     */
+    public static void dictionarySearcher() {
+        DictionaryManagement.searcherForCommandline();
+    }
 }
