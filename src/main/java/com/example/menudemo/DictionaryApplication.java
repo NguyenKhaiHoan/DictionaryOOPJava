@@ -17,7 +17,7 @@ public class  DictionaryApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader( DictionaryApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("DictionaryOPPJava");
+        stage.setTitle("DictionaryOOPJava");
         stage.setResizable(false);
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);

@@ -63,7 +63,7 @@ public class DictionaryController extends Dictionary implements Initializable {
     @FXML
     public void aboutProgram(MouseEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("DictionaryOPPJava");
+        alert.setTitle("DictionaryOOPJava");
         alert.setHeaderText("Information");
         alert.setContentText("Dictionary Java\nCreated by Hoan & Hop");
         alert.show();
@@ -72,7 +72,7 @@ public class DictionaryController extends Dictionary implements Initializable {
     @FXML
     private void closeProgram(MouseEvent event) throws Exception {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("DictionaryOPPJava");
+        alert.setTitle("DictionaryOOPJava");
         alert.setHeaderText("Notification");
         alert.setContentText("Do you want to exit program?");
         ButtonType Yes = new ButtonType("Yes", ButtonBar.ButtonData.YES);
@@ -190,14 +190,14 @@ public class DictionaryController extends Dictionary implements Initializable {
                     txtEditWordExplain.clear();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("DictionaryOPPJava");
+                    alert.setTitle("DictionaryOOPJava");
                     alert.setHeaderText("Warning");
                     alert.setContentText("This word does not exist!");
                     alert.show();
                     return;
                 }
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("DictionaryOPPJava");
+                alert.setTitle("DictionaryOOPJava");
                 alert.setHeaderText("Information");
                 alert.setContentText("You fixed " + wordTarget + " and its meaning is " + wordExplain + " successful!");
                 alert.show();
@@ -251,7 +251,7 @@ public class DictionaryController extends Dictionary implements Initializable {
             txtArea.setText(textTranslated);
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("DictionaryOPPJava");
+            alert.setTitle("DictionaryOOPJava");
             alert.setHeaderText("Warning");
             alert.setContentText("You have not entered words or text!");
             alert.show();
