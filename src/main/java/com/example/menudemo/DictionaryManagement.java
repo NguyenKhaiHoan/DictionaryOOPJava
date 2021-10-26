@@ -7,7 +7,6 @@ import java.util.Scanner;
 import java.sql.*;
 
 public class DictionaryManagement extends Dictionary {
-
     /**
      * Lookup word from GUI.
      */
@@ -45,7 +44,7 @@ public class DictionaryManagement extends Dictionary {
                 return true;
             }
             else {
-                dictionaryExportToDatabase();
+                dictionaryExportToDatabase(wordTarget, wordExplain, 0);
                 return true;
             }
         }
@@ -64,7 +63,7 @@ public class DictionaryManagement extends Dictionary {
                     dictionaryExportToFile();
                 }
                 else {
-                    dictionaryExportToDatabase();
+                    dictionaryExportToDatabase(wordTarget, "", 2);
                 }
             }
         }
@@ -82,7 +81,7 @@ public class DictionaryManagement extends Dictionary {
                     dictionaryExportToFile();
                 }
                 else {
-                    dictionaryExportToDatabase();
+                    dictionaryExportToDatabase(wordTarget, wordExplain, 1);
                 }
                 return true;
             }
@@ -91,7 +90,7 @@ public class DictionaryManagement extends Dictionary {
     }
 
     /**
-     * Search word from GUI.
+     * Edit word from GUI.
      */
     public static List<String> searchFromGUI(String wordTarget) {
         for (int i = 0; i < listWord.size(); i++) {
@@ -139,7 +138,7 @@ public class DictionaryManagement extends Dictionary {
                 dictionaryExportToFile();
             }
             else {
-                dictionaryExportToDatabase();
+                dictionaryExportToDatabase(wordTarget, wordExplain, 0);
             }
         }
         return "Insert successful";
@@ -159,7 +158,7 @@ public class DictionaryManagement extends Dictionary {
                     dictionaryExportToFile();
                 }
                 else {
-                    dictionaryExportToDatabase();
+                    dictionaryExportToDatabase(wordTarget, "", 2);
                 }
                 return "Delete successful!";
             }
@@ -183,7 +182,7 @@ public class DictionaryManagement extends Dictionary {
                     dictionaryExportToFile();
                 }
                 else {
-                    dictionaryExportToDatabase();
+                    dictionaryExportToDatabase(wordTarget, wordExplain, 1);
                 }
                 return "Edit successful!";
             }
@@ -218,24 +217,48 @@ public class DictionaryManagement extends Dictionary {
     /**
      * dictionary export to database.
      */
-    public static void dictionaryExportToDatabase() throws SQLException {
+    public static void dictionaryExportToDatabase(String wordTarget, String wordExplain, int checkFunction) throws SQLException {
         Connection conn = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD);
         Statement stmt = conn.createStatement();
-        int rs1 = stmt.executeUpdate("delete from `tbl_edict`");
-        for (int i = 0; i < listWord.size(); i++) {
+        int n = listWord.size() - 1;
+        if (checkFunction == 0) {
             String sql = "INSERT INTO `tbl_edict`(idx, word, detail) " + "VALUE(?, ?, ?)";
-            String wordTarget = listWord.get(i).getWord_target();
-            String wordExplain = listWord.get(i).getWord_explain();
             try {
                 PreparedStatement ps = conn.prepareStatement(sql);
-                ps.setInt(1, i);
+                ps.setInt(1, n + 1);
                 ps.setString(2, wordTarget);
                 ps.setString(3, wordExplain);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else if (checkFunction == 1) {
+            ResultSet rs = stmt.executeQuery("delete from `tbl_edict` where word = " + wordTarget + ");");
+            String sql1 = "INSERT INTO `tbl_edict`(idx, word, detail) " + "VALUE(?, ?, ?)";
+            try {
+                PreparedStatement ps = conn.prepareStatement(sql1);
+                ps.setInt(1, getIndex(wordTarget));
+                ps.setString(2, wordTarget);
+                ps.setString(3, wordExplain);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            ResultSet rs = stmt.executeQuery("delete from `tbl_edict` where word = " + wordTarget + ");");
         }
         conn.close();
+    }
+
+    /**
+     * get index word target.
+     * @return index
+     */
+    private static int getIndex(String wordTarget) {
+        for (int i = 0; i < listWord.size(); i++) {
+            if (wordTarget.equalsIgnoreCase(listWord.get(i).getWord_target())) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**

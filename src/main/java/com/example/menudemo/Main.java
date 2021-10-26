@@ -39,7 +39,7 @@ public class Main {
                         System.out.println(DictionaryManagement.dictionaryLookup());
                         break;
                     case 6:
-                        DictionaryCommandLine.dictionarySearcher();
+                        DictionaryManagement.searcherForCommandline();
                         break;
                     case 7:
                         googleTranslate();
